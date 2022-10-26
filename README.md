@@ -11,13 +11,13 @@ You need `zig` installed, of course.
 
 Then,
 
-```
-# test all solutions
+```sh
+# run tests for all solutions
 zig build
 
-# test an individual solution
-zig build test_1
-
-# run an individual solution, printing its results
+# run tests for a single solution
 zig build 1
+
+# run a single solution, printing its results
+zig run src/problem_0001.zig
 ```
