@@ -1,7 +1,7 @@
 const std = @import("std");
 
-pub fn main() !void {
-    std.debug.print("{d}\n", .{ solve(1000) });
+pub fn main() void {
+    std.debug.print("{d}\n", .{solve(1000)});
 }
 
 fn solve(limit: u32) u32 {
