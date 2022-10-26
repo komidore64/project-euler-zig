@@ -9,7 +9,7 @@ fn solve(limit: u32) u32 {
 
     var counter: u32 = 1;
     while (counter < limit) : (counter += 1) {
-        if ((counter % 3 == 0) or (counter % 5 == 0)) {
+        if (counter % 3 == 0 or counter % 5 == 0) {
             sum += counter;
         }
     }
