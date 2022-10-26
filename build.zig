@@ -3,6 +3,7 @@ const std = @import("std");
 // https://projecteuler.net/problems
 const solved = [_]u8{
     1,
+    2,
 };
 
 pub fn build(b: *std.build.Builder) void {
