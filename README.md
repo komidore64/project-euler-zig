@@ -13,7 +13,7 @@ Then,
 
 ```sh
 # run tests for all solutions
-zig build
+zig build tests
 
 # run tests for a single solution
 zig build 1

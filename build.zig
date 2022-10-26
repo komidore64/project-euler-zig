@@ -10,15 +10,23 @@ pub fn build(b: *std.build.Builder) void {
     const mode = b.standardReleaseOptions();
 
     const test_all = b.step("tests", "Run all tests");
-    b.default_step = test_all;
 
     for (solved) |solution| {
-        const executable_tests = b.addTest(b.fmt("src/problem_{d:0>4}.zig", .{solution}));
-        executable_tests.setTarget(target);
-        executable_tests.setBuildMode(mode);
+        const base_name = b.fmt("problem_{d:0>4}", .{solution});
+        const file_path = b.fmt("src/{s}.zig", .{base_name});
+
+        // nice to have for debugging
+        const executable = b.addExecutable(base_name, file_path);
+        executable.setTarget(target);
+        executable.setBuildMode(mode);
+        executable.install();
+
+        const tests = b.addTest(file_path);
+        tests.setTarget(target);
+        tests.setBuildMode(mode);
 
         const test_step = b.step(b.fmt("{d}", .{solution}), b.fmt("Test problem {d}", .{solution}));
-        test_step.dependOn(&executable_tests.step);
-        test_all.dependOn(&executable_tests.step);
+        test_step.dependOn(&tests.step);
+        test_all.dependOn(&tests.step);
     }
 }
