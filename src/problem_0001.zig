@@ -17,10 +17,7 @@ fn solve(limit: u32) u32 {
     return sum;
 }
 
-test "example 0001" {
+test "solve" {
     try std.testing.expect(solve(10) == 23);
-}
-
-test "solution 0001" {
     try std.testing.expect(solve(1000) == 233_168);
 }

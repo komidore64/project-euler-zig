@@ -9,7 +9,7 @@ fn solve(limit: u32) u32 {
     var prev1: u32 = 0;
     var prev2: u32 = 1;
 
-    var fib: u32 = prev1 + prev2;
+    var fib = prev1 + prev2;
     while (fib < limit) : ({
         prev1 = prev2;
         prev2 = fib;
@@ -24,8 +24,5 @@ fn solve(limit: u32) u32 {
 
 test "example 0002" {
     try std.testing.expect(solve(90) == 44);
-}
-
-test "solution 0002" {
     try std.testing.expect(solve(4_000_000) == 4_613_732);
 }

@@ -4,6 +4,7 @@ const std = @import("std");
 const solved = [_]u8{
     1,
     2,
+    3,
 };
 
 pub fn build(b: *std.build.Builder) void {
