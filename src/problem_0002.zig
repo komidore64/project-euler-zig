@@ -1,4 +1,5 @@
 const std = @import("std");
+const expect = std.testing.expect;
 
 pub fn main() void {
     std.debug.print("{d}\n", .{solve(4_000_000)});
@@ -23,6 +24,6 @@ fn solve(limit: u32) u32 {
 }
 
 test "example 0002" {
-    try std.testing.expect(solve(90) == 44);
-    try std.testing.expect(solve(4_000_000) == 4_613_732);
+    try expect(solve(90) == 44);
+    try expect(solve(4_000_000) == 4_613_732);
 }

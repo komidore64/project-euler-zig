@@ -1,4 +1,5 @@
 const std = @import("std");
+const expect = std.testing.expect;
 
 pub fn main() void {
     std.debug.print("{d}\n", .{solve(600_851_475_143)});
@@ -15,8 +16,8 @@ fn solve(num: u64) u64 {
 }
 
 test "solve" {
-    try std.testing.expect(solve(13_195) == 29);
-    try std.testing.expect(solve(600_851_475_143) == 6_857);
+    try expect(solve(13_195) == 29);
+    try expect(solve(600_851_475_143) == 6_857);
 }
 
 fn isPrime(num: u64) bool {
@@ -35,10 +36,10 @@ test "isPrime" {
     const composites = [_]u8{ 4, 6, 8, 10 };
 
     for (primes) |p| {
-        try std.testing.expect(isPrime(p));
+        try expect(isPrime(p));
     }
 
     for (composites) |c| {
-        try std.testing.expect(!isPrime(c));
+        try expect(!isPrime(c));
     }
 }
