@@ -5,6 +5,7 @@ const solved = [_]u8{
     1,
     2,
     3,
+    4,
 };
 
 pub fn build(b: *std.build.Builder) void {
