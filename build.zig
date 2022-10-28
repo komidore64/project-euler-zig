@@ -20,11 +20,13 @@ pub fn build(b: *std.build.Builder) void {
 
         // nice to have for debugging
         const executable = b.addExecutable(base_name, file_path);
+        executable.addPackagePath("euler", "lib/euler.zig");
         executable.setTarget(target);
         executable.setBuildMode(mode);
         executable.install();
 
         const tests = b.addTest(file_path);
+        tests.addPackagePath("euler", "lib/euler.zig");
         tests.setTarget(target);
         tests.setBuildMode(mode);
 
@@ -32,4 +34,9 @@ pub fn build(b: *std.build.Builder) void {
         test_step.dependOn(&tests.step);
         test_all.dependOn(&tests.step);
     }
+
+    const lib_tests = b.addTest("lib/euler.zig");
+    lib_tests.setTarget(target);
+    lib_tests.setBuildMode(mode);
+    test_all.dependOn(&lib_tests.step);
 }
