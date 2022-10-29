@@ -1,11 +1,20 @@
 const std = @import("std");
 
+const Lib = struct {
+    name: []const u8,
+    path: []const u8,
+};
+
+const libs = [_]Lib{
+    .{
+        .name = "euler",
+        .path = "src/lib/euler.zig",
+    },
+};
+
 // https://projecteuler.net/problems
 const solved = [_]u8{
-    1,
-    2,
-    3,
-    4,
+    1, 2, 3, 4,
 };
 
 pub fn build(b: *std.build.Builder) void {
@@ -20,13 +29,13 @@ pub fn build(b: *std.build.Builder) void {
 
         // nice to have for debugging
         const executable = b.addExecutable(base_name, file_path);
-        executable.addPackagePath("euler", "lib/euler.zig");
+        for (libs) |lib| { executable.addPackagePath(lib.name, lib.path); }
         executable.setTarget(target);
         executable.setBuildMode(mode);
         executable.install();
 
         const tests = b.addTest(file_path);
-        tests.addPackagePath("euler", "lib/euler.zig");
+        for (libs) |lib| { tests.addPackagePath(lib.name, lib.path); }
         tests.setTarget(target);
         tests.setBuildMode(mode);
 
@@ -35,8 +44,10 @@ pub fn build(b: *std.build.Builder) void {
         test_all.dependOn(&tests.step);
     }
 
-    const lib_tests = b.addTest("lib/euler.zig");
-    lib_tests.setTarget(target);
-    lib_tests.setBuildMode(mode);
-    test_all.dependOn(&lib_tests.step);
+    for (libs) |lib| {
+        const lib_tests = b.addTest(lib.path);
+        lib_tests.setTarget(target);
+        lib_tests.setBuildMode(mode);
+        test_all.dependOn(&lib_tests.step);
+    }
 }
