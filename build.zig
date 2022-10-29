@@ -29,13 +29,17 @@ pub fn build(b: *std.build.Builder) void {
 
         // nice to have for debugging
         const executable = b.addExecutable(base_name, file_path);
-        for (libs) |lib| { executable.addPackagePath(lib.name, lib.path); }
+        for (libs) |lib| {
+            executable.addPackagePath(lib.name, lib.path);
+        }
         executable.setTarget(target);
         executable.setBuildMode(mode);
         executable.install();
 
         const tests = b.addTest(file_path);
-        for (libs) |lib| { tests.addPackagePath(lib.name, lib.path); }
+        for (libs) |lib| {
+            tests.addPackagePath(lib.name, lib.path);
+        }
         tests.setTarget(target);
         tests.setBuildMode(mode);
 

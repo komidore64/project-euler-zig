@@ -27,4 +27,4 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v1
         with:
           version: master
-      - run: zig fmt --check src/
+      - run: zig fmt --check build.zig src/
