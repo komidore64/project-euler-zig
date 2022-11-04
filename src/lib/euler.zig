@@ -2,31 +2,36 @@ const std = @import("std");
 const sqrt = std.math.sqrt;
 const expect = std.testing.expect;
 
-// TODO: how to make this type independent?
-pub fn isPrime(num: u64) bool {
-    if (num <= 1)
-        return false;
+pub fn isPrime(n: anytype) bool {
+    const T = @TypeOf(n);
+    switch (@typeInfo(T)) {
+        .Int => {
+            if (n <= 1)
+                return false;
 
-    var dividend = sqrt(num);
-    while (dividend > 1) : (dividend -= 1) {
-        if (num % dividend == 0)
-            return false;
+            var dividend = sqrt(n);
+            while (dividend > 1) : (dividend -= 1) {
+                if (n % dividend == 0)
+                    return false;
+            }
+
+            return true;
+        },
+        else => @compileError("isPrime not implemented for " ++ @typeName(T)),
     }
-
-    return true;
 }
 
 test "isPrime" {
-    const primes = [_]u8{ 2, 5, 7, 13 };
-    const composites = [_]u8{ 0, 1, 4, 6, 8, 10 };
+    try expect(isPrime(@as(u8, 2)));
+    try expect(isPrime(@as(u16, 5)));
+    try expect(isPrime(@as(u32, 7)));
+    try expect(isPrime(@as(u64, 13)));
 
-    for (primes) |p| {
-        try expect(isPrime(p));
-    }
-
-    for (composites) |c| {
-        try expect(!isPrime(c));
-    }
+    try expect(!isPrime(@as(u8, 0)));
+    try expect(!isPrime(@as(u16, 1)));
+    try expect(!isPrime(@as(u32, 4)));
+    try expect(!isPrime(@as(u64, 6)));
+    try expect(!isPrime(@as(u128, 8)));
 }
 
 // TODO: how to make this type independent?
