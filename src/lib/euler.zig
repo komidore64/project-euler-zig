@@ -34,52 +34,51 @@ test "isPrime" {
     try expect(!isPrime(@as(u128, 8)));
 }
 
-// TODO: how to make this type independent?
-pub fn intToArrayList(num: u32, al: *std.ArrayList(u32)) !void {
-    try al.insert(0, num % 10); // account for `0`
+pub fn intToArrayList(comptime T: type, n: T, al: *std.ArrayList(T)) !void {
+    try al.insert(0, n % 10); // account for `0`
 
-    var div: u32 = 10;
-    while (div <= num) : (div *= 10) {
-        try al.insert(0, num % (div * 10) / div);
+    var div: T = 10;
+    while (div <= n) : (div *= 10) {
+        try al.insert(0, n % (div * 10) / div);
     }
 }
 
 test "intToArrayList(1234)" {
-    var test_arr = std.ArrayList(u32).init(std.testing.allocator);
+    var test_arr = std.ArrayList(u16).init(std.testing.allocator);
     defer test_arr.deinit();
 
-    try intToArrayList(@as(u32, 1234), &test_arr);
-    try expect(std.mem.eql(u32, test_arr.items, &[_]u32{ 1, 2, 3, 4 }));
+    try intToArrayList(u16, @as(u16, 1234), &test_arr);
+    try expect(std.mem.eql(u16, test_arr.items, &[_]u16{ 1, 2, 3, 4 }));
 }
 
 test "intToArrayList(5678)" {
-    var test_arr = std.ArrayList(u32).init(std.testing.allocator);
+    var test_arr = std.ArrayList(u64).init(std.testing.allocator);
     defer test_arr.deinit();
 
-    try intToArrayList(@as(u32, 5678), &test_arr);
-    try expect(std.mem.eql(u32, test_arr.items, &[_]u32{ 5, 6, 7, 8 }));
+    try intToArrayList(u64, @as(u64, 5678), &test_arr);
+    try expect(std.mem.eql(u64, test_arr.items, &[_]u64{ 5, 6, 7, 8 }));
 }
 
 test "intToArrayList(100)" {
     var test_arr = std.ArrayList(u32).init(std.testing.allocator);
     defer test_arr.deinit();
 
-    try intToArrayList(@as(u32, 100), &test_arr);
+    try intToArrayList(u32, @as(u32, 100), &test_arr);
     try expect(std.mem.eql(u32, test_arr.items, &[_]u32{ 1, 0, 0 }));
 }
 
 test "intToArrayList(50)" {
-    var test_arr = std.ArrayList(u32).init(std.testing.allocator);
+    var test_arr = std.ArrayList(u8).init(std.testing.allocator);
     defer test_arr.deinit();
 
-    try intToArrayList(@as(u32, 50), &test_arr);
-    try expect(std.mem.eql(u32, test_arr.items, &[_]u32{ 5, 0 }));
+    try intToArrayList(u8, @as(u8, 50), &test_arr);
+    try expect(std.mem.eql(u8, test_arr.items, &[_]u8{ 5, 0 }));
 }
 
 test "intToArrayList(0)" {
-    var test_arr = std.ArrayList(u32).init(std.testing.allocator);
+    var test_arr = std.ArrayList(u8).init(std.testing.allocator);
     defer test_arr.deinit();
 
-    try intToArrayList(@as(u32, 0), &test_arr);
-    try expect(std.mem.eql(u32, test_arr.items, &[_]u32{0}));
+    try intToArrayList(u8, @as(u8, 0), &test_arr);
+    try expect(std.mem.eql(u8, test_arr.items, &[_]u8{0}));
 }

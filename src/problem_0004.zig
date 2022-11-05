@@ -21,7 +21,7 @@ fn solve(start: u32, stop: u32) !u32 {
 
             var digits_array = std.ArrayList(u32).init(std.heap.page_allocator);
             defer digits_array.deinit();
-            try euler.intToArrayList(product, &digits_array);
+            try euler.intToArrayList(@TypeOf(product), product, &digits_array);
 
             var reverse_digits_array = std.ArrayList(u32).init(std.heap.page_allocator);
             defer reverse_digits_array.deinit();
